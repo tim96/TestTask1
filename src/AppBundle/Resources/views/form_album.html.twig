@@ -1,0 +1,85 @@
+{% extends '@App/layout.html.twig' %}
+{% form_theme form 'bootstrap_3_layout.html.twig' %}
+
+{% block content %}
+    <div class="container">
+
+        <div class="main">
+            <h1>Add Album</h1>
+        </div>
+
+        <div class="album-form">
+
+            {{ form_start(form) }}
+
+            {{ form_row(form.albumName) }}
+
+            <div class="form-group">
+                <label class="control-label">{{ 'album_images_label'|trans({}, 'AppBundle') }}</label>
+                <ul id="image-list-id" class="images" data-prototype="{{ form_widget(form.images.vars.prototype)|e }}" >
+                    {% for image in form.images %}
+                        <li>
+                            {{ form_errors(image) }}
+                            {{ form_widget(image) }}
+
+                            {% if image.vars.value.id is defined %}
+                                <div class="preview">
+                                    <a href="{{ imagePath ~ '/' ~ image.vars.value.filePath }}" >{{ 'button_download_label'|trans({}, 'AppBundle') }}</a>
+                                </div>
+                            {% endif %}
+                        </li>
+                    {% endfor %}
+                </ul>
+
+                <a href="#" id="add-image-id">Add image</a>
+            </div>
+
+            <button class="btn btn-success" type="submit" >{{ 'button_submit_label'|trans({}, 'AppBundle') }}</button>
+
+            {{ form_end(form) }}
+
+        </div>
+    </div><!-- /.container -->
+
+{% endblock content %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script type="text/javascript">
+
+        var imageCount = '{{ form.images|length }}';
+
+        $(document).ready(function() {
+
+            $('#add-image-id').click(function(e) {
+                e.preventDefault();
+
+                var $imageList = $('#image-list-id');
+                var newWidget = $imageList.attr('data-prototype');
+                newWidget = newWidget.replace(/__name__/g, imageCount);
+                imageCount++;
+
+                var $newLi = $('<li></li>').html(newWidget);
+                $newLi.appendTo($imageList);
+
+                addTagFormDeleteLink($newLi);
+            });
+
+            $('ul.images').find('li').each(function() {
+                addTagFormDeleteLink($(this));
+            });
+        });
+
+        function addTagFormDeleteLink($li) {
+            var $removeFormA = $('<a href="#">Remove</a>');
+            $li.append($removeFormA);
+
+            $removeFormA.on('click', function(e) {
+                e.preventDefault();
+
+                $li.remove();
+            });
+        }
+    </script>
+{% endblock javascripts %}

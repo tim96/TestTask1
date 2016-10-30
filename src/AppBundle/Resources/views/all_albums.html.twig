@@ -1,0 +1,25 @@
+{% extends '@App/layout.html.twig' %}
+
+{% block content %}
+    <div class="container">
+
+        <div class="main">
+            <h1>Album</h1>
+        </div>
+
+        <div class="main-album">
+
+            {% block action %}
+                <div class="action">
+                    <a href="{{ path('frontend_new_album') }}">
+                        <button type="button" class="btn btn-primary">{{ 'frontend.add_album_button_label'|trans({}, 'AppBundle') }}</button>
+                    </a>
+                </div>
+            {% endblock action %}
+
+            {{ include('@App/_album_list.html.twig', {'pagination' : pagination}) }}
+
+        </div>
+    </div><!-- /.container -->
+
+{% endblock content %}

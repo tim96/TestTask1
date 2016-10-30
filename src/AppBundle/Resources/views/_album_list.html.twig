@@ -1,0 +1,37 @@
+<div class="albums">
+    {% if pagination.getTotalItemCount < 1 %}
+        <h3>{{ 'frontend.not_found_albums_label'|trans({}, 'AppBundle') }}</h3>
+    {% endif %}
+
+    <table class="table table-striped">
+        <tr>
+            <th></th>
+            <th>{{ knp_pagination_sortable(pagination, 'frontend.th_id_label'|trans({}, 'AppBundle'), 'albumRepository.id') }}</th>
+            <th>{{ knp_pagination_sortable(pagination, 'frontend.th_album_name_label'|trans({}, 'AppBundle'), 'albumRepository.albumName') }}</th>
+            <th>{{ knp_pagination_sortable(pagination, 'frontend.th_created_at_label'|trans({}, 'AppBundle'), 'albumRepository.createdAt') }}</th>
+            <th>{{ knp_pagination_sortable(pagination, 'frontend.count_images_label'|trans({}, 'AppBundle'), 'albumRepository.countImages') }}</th>
+        </tr>
+
+        {% for item in pagination %}
+            <tr>
+                <td>
+                    <a href="{{ path('frontend_show_album', {'id' : item.id}) }}" >
+                        {{ 'frontend.show_action_label'|trans({}, 'AppBundle') }}
+                    </a>
+                    <br/>
+                     <a href="{{ path('frontend_edit_album', {'id' : item.id}) }}" >
+                        {{ 'frontend.edit_action_label'|trans({}, 'AppBundle') }}
+                    </a>
+                </td>
+                <td>{{ item.id }}</td>
+                <td>{{ item.albumName }}</td>
+                <td>{{ item.createdAt|date('Y-m-d H:i:s') }}</td>
+                <td>{{ item.countImages }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+
+    <div class="navigation">
+        {{ knp_pagination_render(pagination) }}
+    </div>
+</div>

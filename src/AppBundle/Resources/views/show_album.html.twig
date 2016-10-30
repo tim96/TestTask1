@@ -1,0 +1,28 @@
+{% extends '@App/layout.html.twig' %}
+
+{% block content %}
+    <div class="container">
+
+        <div class="main">
+            <h1>Album #{{ album.id }}</h1>
+        </div>
+
+        <div class="album-form">
+
+            <div class="row">
+                {{ 'frontend.th_id_label'|trans({}, 'AppBundle') }}: {{ album.id }}<br/>
+                {{ 'frontend.th_album_name_label'|trans({}, 'AppBundle') }}: {{ album.albumName }}<br/>
+                {{ 'frontend.th_created_at_label'|trans({}, 'AppBundle') }}: {{ album.createdAt|date('Y-m-d H:i:s') }}<br/>
+                {{ 'frontend.count_images_label'|trans({}, 'AppBundle') }}: {{ album.countImages }}<br/>
+            </div>
+            <div class="row">
+                {% set index = 0 %}
+                {% for image in album.images if index < 10 %}
+                    {% set index = index + 1 %}
+                    <img src="{{ imagePath ~ '/' ~ image.filePath }}" style="max-width: 200px; max-height: 200px; padding-top: 10px;" /><br/>
+                {% endfor %}
+            </div>
+        </div>
+    </div><!-- /.container -->
+
+{% endblock content %}

@@ -1,0 +1,75 @@
+<?xml version="1.0"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+    <file source-language="en" datatype="plaintext" original="file.ext">
+        <body>
+            <trans-unit id="frontend.home_label">
+                <source>frontend.home_label</source>
+                <target>Album</target>
+            </trans-unit>
+            <trans-unit id="frontend.add_album_button_label">
+                <source>frontend.add_album_button_label</source>
+                <target>Add Album</target>
+            </trans-unit>
+            <trans-unit id="frontend.new_album_label">
+                <source>frontend.new_album_label</source>
+                <target>Add Album</target>
+            </trans-unit>
+            <trans-unit id="album_name_label">
+                <source>album_name_label</source>
+                <target>Album name</target>
+            </trans-unit>
+            <trans-unit id="album_images_label">
+                <source>album_images_label</source>
+                <target>Album images</target>
+            </trans-unit>
+            <trans-unit id="frontend.th_id_label">
+                <source>frontend.th_id_label</source>
+                <target>ID</target>
+            </trans-unit>
+            <trans-unit id="frontend.th_album_name_label">
+                <source>frontend.th_album_name_label</source>
+                <target>Album name</target>
+            </trans-unit>
+            <trans-unit id="frontend.th_created_at_label">
+                <source>frontend.th_created_at_label</source>
+                <target>Album created</target>
+            </trans-unit>
+            <trans-unit id="frontend.get_albums_list_button_label">
+                <source>frontend.get_albums_list_button_label</source>
+                <target>All albums</target>
+            </trans-unit>
+            <trans-unit id="frontend.not_found_albums_label">
+                <source>frontend.not_found_albums_label</source>
+                <target>Albums not found</target>
+            </trans-unit>
+            <trans-unit id="frontend.count_images_label">
+                <source>frontend.count_images_label</source>
+                <target>Count images</target>
+            </trans-unit>
+            <trans-unit id="frontend.filter_album_label">
+                <source>frontend.filter_album_label</source>
+                <target>Album &lt; 10 images</target>
+            </trans-unit>
+            <trans-unit id="frontend.show_action_label">
+                <source>frontend.show_action_label</source>
+                <target>Show</target>
+            </trans-unit>
+            <trans-unit id="frontend.edit_action_label">
+                <source>frontend.edit_action_label</source>
+                <target>Edit</target>
+            </trans-unit>
+            <trans-unit id="button_submit_label">
+                <source>button_submit_label</source>
+                <target>Send</target>
+            </trans-unit>
+            <trans-unit id="button_download_label">
+                <source>button_download_label</source>
+                <target>Download</target>
+            </trans-unit>
+            <trans-unit id="image_file_label">
+                <source>image_file_label</source>
+                <target>Image</target>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>
