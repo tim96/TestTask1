@@ -1,0 +1,24 @@
+# Learn more about services, parameters and containers at
+# http://symfony.com/doc/current/book/service_container.html
+parameters:
+#    parameter_name: value
+
+services:
+    app.file_uploader.service:
+        class: AppBundle\Utils\FileUploader
+        arguments: ['%kernel.root_dir%/../web', '%image_directory%']
+
+    app.image_upload_listener:
+        class: AppBundle\EventListener\ImageUploadListener
+        arguments: ['@app.file_uploader.service']
+        tags:
+            - { name: doctrine.event_listener, event: prePersist }
+            - { name: doctrine.event_listener, event: preUpdate }
+
+    app.temp_file_creator.service:
+        class: AppBundle\Utils\TempFileCreator
+        arguments: ['@filesystem']
+
+    app.album.service:
+        class: AppBundle\Service\AlbumService
+        arguments: ['@doctrine.orm.entity_manager']
