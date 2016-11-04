@@ -58,6 +58,10 @@
                 <source>frontend.edit_action_label</source>
                 <target>Edit</target>
             </trans-unit>
+            <trans-unit id="frontend.count_images_on_page_label">
+                <source>frontend.count_images_on_page_label</source>
+                <target>Count images on page</target>
+            </trans-unit>
             <trans-unit id="button_submit_label">
                 <source>button_submit_label</source>
                 <target>Send</target>

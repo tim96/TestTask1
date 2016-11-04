@@ -4,6 +4,7 @@ namespace AppBundle\Repository;
 
 use Doctrine\DBAL\Types\Type;
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\Query\ResultSetMappingBuilder;
 
 /**
  * AlbumRepository.
@@ -52,5 +53,120 @@ class AlbumRepository extends EntityRepository
         ;
 
         return $qb->getQuery()->getResult();
+    }
+
+    public function getByIdFilterByCountImages($id, $maxImages = 10)
+    {
+        if (null === $id) {
+            return null;
+        }
+
+//        // First working solution
+//
+//        $query = 'Select a.*, i.*
+//From project_album as a
+//Left JOIN
+//(
+//	Select i.*
+//	From project_image as i
+//	Where (
+//		Select COUNT(*)
+//		From project_image as i1
+//		Where i1.id <= i.id AND i1.album_id = i.album_id
+//	)
+//	<= (?)
+//) as i ON a.id = i.album_id
+//WHERE a.id = (?)';
+//
+//        // retrive data as simple array
+//        $em = $this->getEntityManager();
+//        $stmt = $em->getConnection()->prepare($query);
+//        $stmt->bindValue(1, (int)$maxImages);
+//        $stmt->bindValue(2, (int)$id);
+//        $stmt->execute();
+//
+//        return $stmt->fetchAll();
+
+        // Second working solution
+        $query = 'Select a.*, i.id as image_id, i.file_path
+From project_album as a
+Left JOIN
+(
+	Select i.*
+	From project_image as i
+	Where (
+		Select COUNT(*)
+		From project_image as i1
+		Where i1.id <= i.id AND i1.album_id = i.album_id
+	)
+	<= (?)
+) as i ON a.id = i.album_id
+WHERE a.id = (?)';
+
+        $em = $this->getEntityManager();
+        $rsm = new ResultSetMappingBuilder($em);
+
+        // Another solution
+//      $rsm->addEntityResult('AppBundle:Album', 'a');
+//      $rsm->addJoinedEntityResult('AppBundle:Image', 'i', 'a', 'images');
+
+         // it is working
+        $rsm->addRootEntityFromClassMetadata('AppBundle:Album', 'a');
+        $rsm->addJoinedEntityFromClassMetadata('AppBundle:Image', 'i', 'a', 'images', array(
+            'id' => 'image_id',
+            'created_at' => 'image_created_at',
+            'updated_at' => 'image_updated_at',
+        ));
+
+        $queryManager = $this->_em->createNativeQuery($query, $rsm);
+        $queryManager->setParameter(1, (int)$maxImages);
+        $queryManager->setParameter(2, (int)$id);
+
+        return $queryManager->getResult();
+
+
+//        // Third variant is more complex (Not ready)
+//        // Write query using only dotrine, like that:
+//        $qb  = $this->_em->createQueryBuilder();
+//        $qb2 = $qb;
+//        $qb2->select('m.id')
+//            ->from('Custom\Entity\MembreService', 'ms')
+//            ->leftJoin('ms.membre', 'm')
+//            ->where('ms.id != ?1');
+//
+//        $qb  = $this->_em->createQueryBuilder();
+//        $qb->select('mm')
+//            ->from('Custom\Entity\Membre', 'mm')
+//            ->where($qb->expr()->notIn('mm.id', $qb2->getDQL())
+//            );
+//        $qb->setParameter(1, $service);
+//        $query  = $qb->getQuery();
+//
+//        return $query->getResult();
+//
+//        $qb->select(array('DISTINCT i.id', 'i.name', 'o.name'))
+//            ->from('Item', 'i')
+//            ->join('i.order', 'o')
+//            ->where(
+//                $qb->expr()->in(
+//                    'o.id',
+//                    $qb2->select('o2.id')
+//                        ->from('Order', 'o2')
+//                        ->join('Item',
+//                            'i2',
+//                            \Doctrine\ORM\Query\Expr\Join::WITH,
+//                            $qb2->expr()->andX(
+//                                $qb2->expr()->eq('i2.order', 'o2'),
+//                                $qb2->expr()->eq('i2.id', '?1')
+//                            )
+//                        )
+//                        ->getDQL()
+//                )
+//            )
+//            ->andWhere($qb->expr()->neq('i.id', '?2'))
+//            ->orderBy('o.orderdate', 'DESC')
+//            ->setParameter(1, 5)
+//            ->setParameter(2, 5)
+//        ;
     }
 }

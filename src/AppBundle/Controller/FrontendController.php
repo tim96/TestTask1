@@ -113,7 +113,8 @@ class FrontendController extends Controller
         }
 
         $parameters = array();
-        $parameters['album'] = $this->get('app.album.service')->getRecordById($id);
+        // $parameters['album'] = $this->get('app.album.service')->getRecordById($id);
+        $parameters['album'] = $this->get('app.album.service')->getByIdFilterMaxImages($id);
         $parameters['imagePath'] = $this->get('app.file_uploader.service')->getTargetDir();
 
         return $this->render('@App/show_album.html.twig', $parameters);

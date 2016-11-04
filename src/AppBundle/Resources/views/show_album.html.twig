@@ -14,6 +14,7 @@
                 {{ 'frontend.th_album_name_label'|trans({}, 'AppBundle') }}: {{ album.albumName }}<br/>
                 {{ 'frontend.th_created_at_label'|trans({}, 'AppBundle') }}: {{ album.createdAt|date('Y-m-d H:i:s') }}<br/>
                 {{ 'frontend.count_images_label'|trans({}, 'AppBundle') }}: {{ album.countImages }}<br/>
+                {{ 'frontend.count_images_on_page_label'|trans({}, 'AppBundle') }}: {{ album.images|length }}<br/>
             </div>
             <div class="row">
                 {% set index = 0 %}

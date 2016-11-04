@@ -51,6 +51,16 @@ class AlbumService
         return $this->repository->getById($id);
     }
 
+    public function getByIdFilterMaxImages($id, $maxImages = 10)
+    {
+        $record = $this->repository->getByIdFilterByCountImages($id, $maxImages);
+        if (count($record) < 1) {
+            throw new NotFoundHttpException();
+        }
+
+        return $record[0];
+    }
+
     public function getRecordById($id)
     {
         $record = $this->getById($id);
